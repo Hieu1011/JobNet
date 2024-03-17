@@ -5,13 +5,13 @@ import SignIn from '../screens/SignIn/SignIn';
 import SignUp from '../screens/SignUp/SignUp';
 import Welcome from '../screens/Welcome/Welcome';
 import Splash from '../screens/Splash/Splash';
-import Home from '../screens/Home/Home';
+import BottomNavigator from './BottomNavigator';
 
 const Stack = createNativeStackNavigator();
 
 const RootNavigation = () => {
   return (
-    <Stack.Navigator initialRouteName='Splash'
+    <Stack.Navigator initialRouteName='BottomNavigator'
     screenOptions={{
         headerShown: false,
         presentation: 'modal',
@@ -23,7 +23,7 @@ const RootNavigation = () => {
         <Stack.Screen name='SignIn' component={SignIn}/>
         <Stack.Screen name='SignUp' component={SignUp}/>
 
-        <Stack.Screen name='Home' component={Home}/>
+        <Stack.Screen name='BottomNavigator' component={BottomNavigator}/>
     </Stack.Navigator>
   )
 }

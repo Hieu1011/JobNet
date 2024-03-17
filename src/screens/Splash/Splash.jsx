@@ -1,18 +1,18 @@
-import { View, Text, SafeAreaView, Image } from 'react-native'
-import React, { useEffect } from 'react'
-import styles from './splash.style';
-import splash from '../../../assets/images/favicon.png'
+import {SafeAreaView, Image} from 'react-native'
+import React, {useEffect} from 'react'
+import styles from './splash.style'
+import {images} from '../../../constants'
 
 const Splash = ({navigation}) => {
-    useEffect(() => {
-        setTimeout(()=> {
-            navigation.replace('SignIn')
-        }, 2000)
-    },[]);
+  useEffect(() => {
+    setTimeout(() => {
+      navigation.replace('Welcome')
+    }, 2000)
+  }, [])
 
   return (
     <SafeAreaView style={styles.splashContainer}>
-      <Image source={splash}/>
+      <Image source={images.favicon} />
     </SafeAreaView>
   )
 }
