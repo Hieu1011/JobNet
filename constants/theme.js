@@ -2,12 +2,21 @@ import {Dimensions} from 'react-native'
 const {height, width} = Dimensions.get('window')
 
 export const COLORS = {
-  primary: '#007260',
-  secondary: '#39B68D',
-  white: '#FFFFFF',
-  black: '#222222',
-  grey: '#CCCCCC'
-}
+  primary: '#007ACC', // Màu xanh dương chủ đạo
+  secondary: '#6EB5E5', // Màu xanh dương nhạt, là phiên bản của primary
+  accent: '#FF5A5F', // Màu nổi bật, có thể sử dụng cho các yếu tố nhấn
+  background: '#E2E8FA', // Màu nền
+  text: '#333333', // Màu chữ chính
+  textSecondary: '#666666', // Màu chữ phụ
+  border: '#DDDDDD', // Màu đường viền
+  shadow: 'rgba(0, 0, 0, 0.1)', // Màu bóng
+  black: '#000000', // Màu đen
+  white: '#FFFFFF', // Màu trắng
+  greyLight: '#CCCCCC', // Màu xám nhạt
+  greyMedium: '#999999', // Màu xám trung bình
+  greyDark: '#555555' // Màu xám đậm
+};
+
 
 export const SIZES = {
   // global SIZES
