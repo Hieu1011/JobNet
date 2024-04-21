@@ -1,27 +1,32 @@
-import { View, Text } from 'react-native'
-import React from 'react'
-import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
-import { createNativeStackNavigator } from '@react-navigation/native-stack'
+import {createMaterialBottomTabNavigator} from 'react-native-paper/react-navigation'
+import {createNativeStackNavigator} from '@react-navigation/native-stack'
 import Ionicons from 'react-native-vector-icons/Ionicons'
 import Home from '../screens/Home/Home'
 import Post from '../screens/Post/Post'
-import { COLORS } from '../../constants'
+import PostDetail from '../components/PostDetail'
+import Archive from '../screens/Home/Archive/Archive'
+import Chat from '../screens/Home/Chat/Chat'
+import {COLORS} from '../../constants'
 
-const Tab = createBottomTabNavigator()
+const Tab = createMaterialBottomTabNavigator()
 const Stack = createNativeStackNavigator()
 
 const HomeStack = () => {
   return (
     <Stack.Navigator
-      initialRouteName="Home"
+      initialRouteName="HomePage"
       screenOptions={{
-        headerShown: false
+        headerShown: false, 
       }}>
-      <Stack.Screen name="Home" component={Home} />
+      <Stack.Screen name="HomePage" component={Home} />
+      <Stack.Screen name="PostDetail" component={PostDetail} />
+      <Stack.Screen name="Archive" component={Archive} />
+      <Stack.Screen name="Chat" component={Chat} />
     </Stack.Navigator>
   )
 }
 const PostStack = () => {
+
   return <Stack.Navigator
     initialRouteName="Post"
     screenOptions={{ headerShown: false }}
@@ -32,18 +37,11 @@ const PostStack = () => {
 
 const BottomNavigator = () => {
   return (
-    <Tab.Navigator
-      initialRouteName="HomeStack"
-      component={HomeStack}
-      screenOptions={{
-        headerShown: false,
-        tabBarShowLabel: false,
-        tabBarHideOnKeyboard: true,
-        tabBarStyle: { backgroundColor: COLORS.secondary }
-      }}>
-
+    <Tab.Navigator initialRouteName="Home"
+    barStyle={{height: 55}} 
+    >
       <Tab.Screen
-        name="HomeStack"
+        name="Home"
         component={HomeStack}
         options={{
           tabBarIcon: ({ focused }) => (
@@ -61,8 +59,52 @@ const BottomNavigator = () => {
         component={PostStack}
         options={{
           tabBarIcon: ({ focused }) => (
+          title: '',
+          tabBarIcon: ({focused}) => (
             <Ionicons
               name={focused ? 'home' : 'home-outline'}
+              size={20}
+              color={focused ? COLORS.primary : COLORS.black}
+            />
+          )
+        }}
+      />
+      <Tab.Screen
+        name="Post"
+        component={HomeStack}
+        options={{
+          title: '',
+          tabBarIcon: ({focused}) => (
+            <Ionicons
+              name={focused ? 'add-circle' : 'add-circle-outline'}
+              size={24}
+              color={focused ? COLORS.primary : COLORS.black}
+            />
+          )
+        }}
+      />
+      <Tab.Screen
+        name="Notifications"
+        component={HomeStack}
+        options={{
+          title: '',
+          tabBarIcon: ({focused}) => (
+            <Ionicons
+              name={focused ? 'notifications' : 'notifications-outline'}
+              size={24}
+              color={focused ? COLORS.primary : COLORS.black}
+            />
+          )
+        }}
+      />
+      <Tab.Screen
+        name="Settings"
+        component={HomeStack}
+        options={{
+          title: '',
+          tabBarIcon: ({focused}) => (
+            <Ionicons
+              name={focused ? 'person' : 'person-outline'}
               size={24}
               color={focused ? COLORS.primary : COLORS.black}
             />
