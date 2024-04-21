@@ -3,6 +3,8 @@ import {createNativeStackNavigator} from '@react-navigation/native-stack'
 import Ionicons from 'react-native-vector-icons/Ionicons'
 import Home from '../screens/Home/Home'
 import PostDetail from '../components/PostDetail'
+import Archive from '../screens/Home/Archive/Archive'
+import Chat from '../screens/Home/Chat/Chat'
 import {COLORS} from '../../constants'
 
 const Tab = createMaterialBottomTabNavigator()
@@ -17,6 +19,8 @@ const HomeStack = () => {
       }}>
       <Stack.Screen name="HomePage" component={Home} />
       <Stack.Screen name="PostDetail" component={PostDetail} />
+      <Stack.Screen name="Archive" component={Archive} />
+      <Stack.Screen name="Chat" component={Chat} />
     </Stack.Navigator>
   )
 }

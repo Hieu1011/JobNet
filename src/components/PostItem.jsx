@@ -8,12 +8,19 @@ import {
 } from 'react-native'
 import React, {useCallback, useEffect, useState} from 'react'
 import {useNavigation} from '@react-navigation/native'
+import {useDispatch} from 'react-redux'
 import AntDesign from 'react-native-vector-icons/AntDesign'
+import Entypo from 'react-native-vector-icons/Entypo'
 import FontAwesome from 'react-native-vector-icons/FontAwesome'
 import {COLORS, images} from '../../constants'
+import ImageGrid from './ImageGrid'
+import {selectImg, selectPost} from '../redux/slices/selectedPostSlice'
+import {openModal} from '../redux/slices/modalSlice'
 
 const PostItem = ({data}) => {
   const navigation = useNavigation()
+  const dispatch = useDispatch()
+
   const [showMoreButton, setShowMoreButton] = useState(false)
   const [textShown, setTextShown] = useState(false)
   const [numLines, setNumLines] = useState(undefined)
@@ -23,6 +30,13 @@ const PostItem = ({data}) => {
 
   const handleLike = () => {
     setIsLike(!isLike)
+  }
+
+  const handleImgPress = (postId, index) => {
+    dispatch(selectPost(data.item))
+    dispatch(selectImg(index))
+    dispatch(openModal())
+    console.log('Selected post ID:', postId, index)
   }
 
   useEffect(() => {
@@ -52,6 +66,12 @@ const PostItem = ({data}) => {
             <Text style={styles.text}>16h</Text>
           </View>
         </View>
+
+        <View style={{position: 'absolute', right: 5, top: 5, padding: 5}}>
+          <TouchableOpacity>
+            <Entypo name="dots-three-vertical" size={16} color={COLORS.black} />
+          </TouchableOpacity>
+        </View>
       </View>
 
       <View style={styles.content}>
@@ -72,12 +92,28 @@ const PostItem = ({data}) => {
           </Text>
         ) : null}
 
+        <ImageGrid
+          data={data.item.imgs}
+          postId={data.item.id}
+          onPress={handleImgPress}
+        />
+
         <TouchableWithoutFeedback
           onPress={() =>
             navigation.navigate('PostDetail', {postData: data.item})
           }>
           <View style={styles.contentFooter}>
-            <View>
+            <View style={{flexDirection: 'row', alignItems: 'center', gap: 5}}>
+              <TouchableOpacity
+                style={{
+                  padding: 2,
+                  borderWidth: 1,
+                  borderRadius: 20,
+                  borderColor: COLORS.background,
+                  backgroundColor: COLORS.background
+                }}>
+                <AntDesign name="like1" size={14} color={COLORS.primary} />
+              </TouchableOpacity>
               <Text style={styles.text}>240</Text>
             </View>
             <View style={{flexDirection: 'row', gap: 10}}>
@@ -124,10 +160,12 @@ export default PostItem
 
 const styles = StyleSheet.create({
   container: {
+    marginHorizontal: 10,
+    marginVertical: 5,
     padding: 10,
     paddingBottom: 5,
-    marginBottom: 10,
     gap: 10,
+    borderRadius: 7,
     backgroundColor: 'white'
   },
   header: {

@@ -4,25 +4,35 @@ import Feather from 'react-native-vector-icons/Feather'
 import Entypo from 'react-native-vector-icons/Entypo'
 import {COLORS} from '../../constants'
 
-const SearchBar = ({searchPhrase, setSearchPhrase}) => {
+const SearchBar = ({
+  placeholder,
+  searchQuery,
+  setSearchQuery,
+  onChangeText,
+  style
+}) => {
   return (
-    <View style={styles.container}>
+    <View style={[styles.container, style]}>
       <Feather name="search" size={20} color="black" />
       <View style={styles.searchBar}>
         <TextInput
           style={styles.input}
-          placeholder="Search"
-          value={searchPhrase}
-          onChangeText={setSearchPhrase}
+          placeholder={placeholder}
+          value={searchQuery}
+          onChangeText={query => {
+            setSearchQuery(query)
+            onChangeText && onChangeText(query)
+          }}
         />
       </View>
-      {searchPhrase !== '' && (
+      {searchQuery !== '' && (
         <Entypo
           name="cross"
           size={20}
           color="black"
           onPress={() => {
-            setSearchPhrase('')
+            setSearchQuery('')
+            onChangeText && onChangeText('')
           }}
         />
       )}
@@ -40,7 +50,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     width: '70%',
     backgroundColor: COLORS.background,
-    borderRadius: 10,
+    borderRadius: 5,
     paddingHorizontal: 10
   },
   searchBar: {
