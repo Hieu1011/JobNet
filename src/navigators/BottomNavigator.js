@@ -16,7 +16,7 @@ const HomeStack = () => {
     <Stack.Navigator
       initialRouteName="HomePage"
       screenOptions={{
-        headerShown: false, 
+        headerShown: false
       }}>
       <Stack.Screen name="HomePage" component={Home} />
       <Stack.Screen name="PostDetail" component={PostDetail} />
@@ -26,25 +26,26 @@ const HomeStack = () => {
   )
 }
 const PostStack = () => {
-
-  return <Stack.Navigator
-    initialRouteName="Post"
-    screenOptions={{ headerShown: false }}
-  >
-    <Stack.Screen name="Post" component={Post} />
-  </Stack.Navigator>
+  return (
+    <Stack.Navigator
+      initialRouteName="Post"
+      screenOptions={{
+        headerShown: false
+      }}>
+      <Stack.Screen name="Post" component={Post} />
+    </Stack.Navigator>
+  )
 }
 
 const BottomNavigator = () => {
   return (
-    <Tab.Navigator initialRouteName="Home"
-    barStyle={{height: 55}} 
-    >
+    <Tab.Navigator initialRouteName="Home" barStyle={{height: 55}}>
       <Tab.Screen
         name="Home"
         component={HomeStack}
         options={{
-          tabBarIcon: ({ focused }) => (
+          title: '',
+          tabBarIcon: ({focused}) => (
             <Ionicons
               name={focused ? 'home' : 'home-outline'}
               size={24}
@@ -55,23 +56,8 @@ const BottomNavigator = () => {
       />
 
       <Tab.Screen
-        name="PostStack"
-        component={PostStack}
-        options={{
-          tabBarIcon: ({ focused }) => (
-          title: '',
-          tabBarIcon: ({focused}) => (
-            <Ionicons
-              name={focused ? 'home' : 'home-outline'}
-              size={20}
-              color={focused ? COLORS.primary : COLORS.black}
-            />
-          )
-        }}
-      />
-      <Tab.Screen
         name="Post"
-        component={HomeStack}
+        component={PostStack}
         options={{
           title: '',
           tabBarIcon: ({focused}) => (
@@ -112,7 +98,6 @@ const BottomNavigator = () => {
         }}
       />
     </Tab.Navigator>
-
   )
 }
 
