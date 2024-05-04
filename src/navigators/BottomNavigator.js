@@ -2,7 +2,10 @@ import {createMaterialBottomTabNavigator} from 'react-native-paper/react-navigat
 import {createNativeStackNavigator} from '@react-navigation/native-stack'
 import Ionicons from 'react-native-vector-icons/Ionicons'
 import Home from '../screens/Home/Home'
-import PostDetail from '../components/PostDetail'
+import Post from '../screens/PostCreate/Post'
+import PostDetail from '../screens/Home/Post/PostDetail'
+import Archive from '../screens/Home/Archive/Archive'
+import Chat from '../screens/Home/Chat/Chat'
 import {COLORS} from '../../constants'
 import Notification from '../screens/Notification/Notification'
 
@@ -14,10 +17,12 @@ const HomeStack = () => {
     <Stack.Navigator
       initialRouteName="HomePage"
       screenOptions={{
-        headerShown: false, 
+        headerShown: false
       }}>
       <Stack.Screen name="HomePage" component={Home} />
       <Stack.Screen name="PostDetail" component={PostDetail} />
+      <Stack.Screen name="Archive" component={Archive} />
+      <Stack.Screen name="Chat" component={Chat} />
     </Stack.Navigator>
   )
 }
@@ -34,19 +39,22 @@ const NotificationStack = () => {
   )
 }
 
-const PostStack = () => {
+
+const PostCreateStack = () => {
   return (
     <Stack.Navigator
       initialRouteName="Post"
-      screenOptions={{headerShown: false}}></Stack.Navigator>
+      screenOptions={{
+        headerShown: false
+      }}>
+      <Stack.Screen name="Post" component={Post} />
+    </Stack.Navigator>
   )
 }
 
 const BottomNavigator = () => {
   return (
-    <Tab.Navigator initialRouteName="Home"
-    barStyle={{height: 55}} 
-    >
+    <Tab.Navigator initialRouteName="Home" barStyle={{height: 55}}>
       <Tab.Screen
         name="Home"
         component={HomeStack}
@@ -55,15 +63,16 @@ const BottomNavigator = () => {
           tabBarIcon: ({focused}) => (
             <Ionicons
               name={focused ? 'home' : 'home-outline'}
-              size={20}
+              size={24}
               color={focused ? COLORS.primary : COLORS.black}
             />
           )
         }}
       />
+
       <Tab.Screen
         name="Post"
-        component={HomeStack}
+        component={PostCreateStack}
         options={{
           title: '',
           tabBarIcon: ({focused}) => (

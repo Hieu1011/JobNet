@@ -10,9 +10,10 @@ export const COLORS = {
   textSecondary: '#666666', // Màu chữ phụ
   border: '#DDDDDD', // Màu đường viền
   shadow: 'rgba(0, 0, 0, 0.1)', // Màu bóng
+  transparent: 'rgba(0, 0, 0, 0)', // Màu bóng
   black: '#000000', // Màu đen
   white: '#FFFFFF', // Màu trắng
-  greyLight: '#CCCCCC', // Màu xám nhạt
+  greyLight: '#EEEEEE', // Màu xám nhạt
   greyMedium: '#999999', // Màu xám trung bình
   greyDark: '#555555' // Màu xám đậm
 };
