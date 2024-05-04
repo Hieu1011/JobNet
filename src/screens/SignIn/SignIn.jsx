@@ -154,7 +154,7 @@ const SignIn = ({navigation}) => {
             style={{
               flex: 1,
               height: 1,
-              backgroundColor: COLORS.grey,
+              backgroundColor: COLORS.greyLight,
               marginHorizontal: 10
             }}
           />
@@ -163,7 +163,7 @@ const SignIn = ({navigation}) => {
             style={{
               flex: 1,
               height: 1,
-              backgroundColor: COLORS.grey,
+              backgroundColor: COLORS.greyLight,
               marginHorizontal: 10
             }}
           />
@@ -183,7 +183,7 @@ const SignIn = ({navigation}) => {
               flexDirection: 'row',
               height: 52,
               borderWidth: 1,
-              borderColor: COLORS.grey,
+              borderColor: COLORS.greyLight,
               marginRight: 4,
               borderRadius: 10
             }}>
@@ -209,7 +209,7 @@ const SignIn = ({navigation}) => {
               flexDirection: 'row',
               height: 52,
               borderWidth: 1,
-              borderColor: COLORS.grey,
+              borderColor: COLORS.greyLight,
               marginRight: 4,
               borderRadius: 10
             }}>

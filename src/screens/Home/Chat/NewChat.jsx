@@ -135,6 +135,7 @@ const styles = StyleSheet.create({
   title: {
     flex: 1,
     fontSize: 18,
+    textAlign: 'center',
     alignSelf: 'flex-end',
     fontWeight: '600',
     color: COLORS.black

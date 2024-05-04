@@ -4,23 +4,32 @@ import {
   Text,
   View,
   TouchableOpacity,
-  TouchableWithoutFeedback
+  TouchableWithoutFeedback,
+  ToastAndroid
 } from 'react-native'
+import Share from 'react-native-share'
 import React, {useCallback, useEffect, useState} from 'react'
+import {Menu} from 'react-native-paper'
 import {useNavigation} from '@react-navigation/native'
-import {useDispatch} from 'react-redux'
+import {useDispatch, useSelector} from 'react-redux'
 import AntDesign from 'react-native-vector-icons/AntDesign'
 import Entypo from 'react-native-vector-icons/Entypo'
 import FontAwesome from 'react-native-vector-icons/FontAwesome'
-import {COLORS, images} from '../../constants'
-import ImageGrid from './ImageGrid'
-import {selectImg, selectPost} from '../redux/slices/selectedPostSlice'
-import {openModal} from '../redux/slices/modalSlice'
+import {COLORS, images} from '../../../../constants'
+import ImageGrid from '../../../components/ImageGrid'
+import {selectImg, selectPost} from '../../../redux/slices/selectedPostSlice'
+import {openModal} from '../../../redux/slices/modalSlice'
+import {addPost} from '../../../redux/slices/postsSlice'
+import { getImageBase64Array } from '../../../utils/imgsUtils'
 
 const PostItem = ({data}) => {
   const navigation = useNavigation()
   const dispatch = useDispatch()
+  const existingPosts = useSelector(state => state.posts.archivePost)
 
+  const [visible, setVisible] = useState(false)
+  const openMenu = () => setVisible(true)
+  const closeMenu = () => setVisible(false)
   const [showMoreButton, setShowMoreButton] = useState(false)
   const [textShown, setTextShown] = useState(false)
   const [numLines, setNumLines] = useState(undefined)
@@ -30,6 +39,35 @@ const PostItem = ({data}) => {
 
   const handleLike = () => {
     setIsLike(!isLike)
+  }
+
+  const handleShare = async () => {
+    const {text, imgs} = data.item
+    console.log(imgs)
+
+    let message = `${text}`
+
+    const imageUrls = imgs.map(img => img.uri)
+
+    const base64Array = await getImageBase64Array(imageUrls);
+    if (base64Array.length > 0) {
+      const options = {
+        title: "Share post via",
+        subject: "Share post via",
+        message: message,
+        urls: base64Array,
+        showAppsToView: true
+      };
+      try {
+        const shareResponse = await Share.open(options);
+        console.log("Shared successfully:", shareResponse);
+        
+      } catch (error) {
+        console.log("Error sharing:", error);
+      }
+    } else {
+      console.log("Base64 data array is empty");
+    }
   }
 
   const handleImgPress = (postId, index) => {
@@ -53,6 +91,16 @@ const PostItem = ({data}) => {
     [textShown]
   )
 
+  const onSavePost = () => {
+    const existingPost = existingPosts.find(post => post.id === data.item.id)
+    if (!existingPost) {
+      dispatch(addPost({postType: 'archive', post: data.item}))
+      ToastAndroid.show('Đã lưu bài post', ToastAndroid.SHORT)
+    } else ToastAndroid.show('Post này đã được lưu rồi', ToastAndroid.SHORT)
+    closeMenu()
+    console.log(data.item)
+  }
+
   return (
     <View style={styles.container}>
       <View style={styles.header}>
@@ -68,16 +116,45 @@ const PostItem = ({data}) => {
         </View>
 
         <View style={{position: 'absolute', right: 5, top: 5, padding: 5}}>
-          <TouchableOpacity>
-            <Entypo name="dots-three-vertical" size={16} color={COLORS.black} />
-          </TouchableOpacity>
+          <Menu
+            visible={visible}
+            style={{}}
+            onDismiss={closeMenu}
+            anchor={
+              <TouchableOpacity onPress={openMenu}>
+                <Entypo
+                  name="dots-three-vertical"
+                  size={16}
+                  color={COLORS.black}
+                />
+              </TouchableOpacity>
+            }>
+            <Menu.Item
+              leadingIcon="bookmark-outline"
+              onPress={() => onSavePost()}
+              title="Save"
+              titleStyle={{fontSize: 14}}
+            />
+            <Menu.Item
+              leadingIcon="tray-arrow-up"
+              onPress={() => {}}
+              title="Share via"
+              titleStyle={{fontSize: 14}}
+            />
+            <Menu.Item
+              leadingIcon="close-circle"
+              onPress={() => {}}
+              title={`Unfollow Bui Luong Hieu`}
+              titleStyle={{fontSize: 14}}
+            />
+          </Menu>
         </View>
       </View>
 
       <View style={styles.content}>
         <TouchableWithoutFeedback
           onPress={() =>
-            navigation.navigate('PostDetail', {postData: data.item})
+            navigation.navigate('PostDetail', data.item)
           }>
           <Text
             numberOfLines={numLines}
@@ -100,7 +177,7 @@ const PostItem = ({data}) => {
 
         <TouchableWithoutFeedback
           onPress={() =>
-            navigation.navigate('PostDetail', {postData: data.item})
+            navigation.navigate('PostDetail', data.item)
           }>
           <View style={styles.contentFooter}>
             <View style={{flexDirection: 'row', alignItems: 'center', gap: 5}}>
@@ -117,9 +194,21 @@ const PostItem = ({data}) => {
               <Text style={styles.text}>240</Text>
             </View>
             <View style={{flexDirection: 'row', gap: 10}}>
-              <Text style={styles.text}>8 comments</Text>
-              <Text style={styles.text}>•</Text>
-              <Text style={styles.text}>2 shares</Text>
+              <View style={{flexDirection: 'row', alignItems: 'center'}}>
+                {data.item.options.comments.length > 0 && (
+                  <>
+                    <Text style={styles.text}>
+                      {data.item.options.comments.length} comments
+                    </Text>
+                    {data.item.options.shares.length > 0 && (
+                      <Text style={styles.text}> • </Text>
+                    )}
+                  </>
+                )}
+                <Text style={styles.text}>
+                  {data.item.options.shares.length} shares
+                </Text>
+              </View>
             </View>
           </View>
         </TouchableWithoutFeedback>
@@ -142,7 +231,9 @@ const PostItem = ({data}) => {
           <Text style={styles.optionText(false)}>Comment</Text>
         </TouchableOpacity>
 
-        <TouchableOpacity style={styles.optionTab}>
+        <TouchableOpacity
+          style={styles.optionTab}
+          onPress={() => handleShare()}>
           <FontAwesome name="share" size={18} color={COLORS.greyDark} />
           <Text style={styles.optionText(false)}>Share</Text>
         </TouchableOpacity>
@@ -160,7 +251,7 @@ export default PostItem
 
 const styles = StyleSheet.create({
   container: {
-    marginHorizontal: 10,
+    marginHorizontal: 5,
     marginVertical: 5,
     padding: 10,
     paddingBottom: 5,

@@ -7,6 +7,7 @@ import {
   ActivityIndicator
 } from 'react-native'
 import React, {useEffect, useRef, useState} from 'react'
+import {SwipeListView} from 'react-native-swipe-list-view'
 import ActionSheet from 'react-native-actions-sheet'
 import AntDesign from 'react-native-vector-icons/AntDesign'
 import {filter} from 'lodash'
@@ -15,6 +16,7 @@ import {COLORS} from '../../../../constants'
 import SearchBar from '../../../components/SearchBar'
 import ChatItem from './ChatItem'
 import NewChat from './NewChat'
+import BackButton from '../../../components/BackButton'
 
 const API_ENDPOINT = `https://randomuser.me/api/?results=30`
 const Chat = ({navigation}) => {
@@ -89,9 +91,7 @@ const Chat = ({navigation}) => {
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.header}>
-        <TouchableOpacity onPress={() => navigation.goBack()}>
-          <AntDesign name="arrowleft" size={24} color={COLORS.black} />
-        </TouchableOpacity>
+        <BackButton navigation={navigation}/>
         <SearchBar
           placeholder={'Search messages'}
           searchQuery={searchQuery}
@@ -116,13 +116,39 @@ const Chat = ({navigation}) => {
       </View>
 
       <View style={styles.content}>
-        <FlatList
+        <SwipeListView
           data={data}
           style={styles.chatFlatlist}
           keyExtractor={item => item.login.username}
+          disableRightSwipe
           renderItem={item => (
             <ChatItem data={item} type={'chat'} onPress={() => {}} />
           )}
+          renderHiddenItem={(data, rowMap) => (
+            <View
+              style={{
+                flex: 1,
+                flexDirection: 'row',
+                justifyContent: 'space-between',
+              }}>
+              <View
+                style={{
+                  alignItems: 'center',
+                  bottom: 0,
+                  justifyContent: 'center',
+                  position: 'absolute',
+                  top: 0,
+                  width: 75,
+                  height: 65,
+                  backgroundColor: 'red',
+                  right: 0
+                }}>
+                <Text style={{ color: '#FFF',}}>Delete</Text>
+              </View>
+            </View>
+          )}
+          leftOpenValue={75}
+          rightOpenValue={-75}
         />
       </View>
 

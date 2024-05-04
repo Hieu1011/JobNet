@@ -80,7 +80,7 @@ const SignUp = ({navigation}) => {
             style={{
               width: '12%',
               borderRightWidth: 1,
-              borderLeftColor: COLORS.grey,
+              borderLeftColor: COLORS.greyLight,
               height: '100%'
             }}
           />
@@ -159,7 +159,6 @@ const SignUp = ({navigation}) => {
 
       <Button
         title="Sign Up"
-        filled
         style={{
           marginTop: 18,
           marginBottom: 4
@@ -176,7 +175,7 @@ const SignUp = ({navigation}) => {
           style={{
             flex: 1,
             height: 1,
-            backgroundColor: COLORS.grey,
+            backgroundColor: COLORS.greyLight,
             marginHorizontal: 10
           }}
         />
@@ -185,7 +184,7 @@ const SignUp = ({navigation}) => {
           style={{
             flex: 1,
             height: 1,
-            backgroundColor: COLORS.grey,
+            backgroundColor: COLORS.greyLight,
             marginHorizontal: 10
           }}
         />
@@ -205,7 +204,7 @@ const SignUp = ({navigation}) => {
             flexDirection: 'row',
             height: 52,
             borderWidth: 1,
-            borderColor: COLORS.grey,
+            borderColor: COLORS.greyLight,
             marginRight: 4,
             borderRadius: 10
           }}>
@@ -231,7 +230,7 @@ const SignUp = ({navigation}) => {
             flexDirection: 'row',
             height: 52,
             borderWidth: 1,
-            borderColor: COLORS.grey,
+            borderColor: COLORS.greyLight,
             marginRight: 4,
             borderRadius: 10
           }}>

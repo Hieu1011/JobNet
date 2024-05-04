@@ -13,7 +13,7 @@ export const COLORS = {
   transparent: 'rgba(0, 0, 0, 0)', // Màu bóng
   black: '#000000', // Màu đen
   white: '#FFFFFF', // Màu trắng
-  greyLight: '#CCCCCC', // Màu xám nhạt
+  greyLight: '#EEEEEE', // Màu xám nhạt
   greyMedium: '#999999', // Màu xám trung bình
   greyDark: '#555555' // Màu xám đậm
 };

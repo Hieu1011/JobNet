@@ -2,8 +2,8 @@ import {createMaterialBottomTabNavigator} from 'react-native-paper/react-navigat
 import {createNativeStackNavigator} from '@react-navigation/native-stack'
 import Ionicons from 'react-native-vector-icons/Ionicons'
 import Home from '../screens/Home/Home'
-import Post from '../screens/Post/Post'
-import PostDetail from '../components/PostDetail'
+import Post from '../screens/PostCreate/Post'
+import PostDetail from '../screens/Home/Post/PostDetail'
 import Archive from '../screens/Home/Archive/Archive'
 import Chat from '../screens/Home/Chat/Chat'
 import {COLORS} from '../../constants'
@@ -25,7 +25,7 @@ const HomeStack = () => {
     </Stack.Navigator>
   )
 }
-const PostStack = () => {
+const PostCreateStack = () => {
   return (
     <Stack.Navigator
       initialRouteName="Post"
@@ -57,7 +57,7 @@ const BottomNavigator = () => {
 
       <Tab.Screen
         name="Post"
-        component={PostStack}
+        component={PostCreateStack}
         options={{
           title: '',
           tabBarIcon: ({focused}) => (
